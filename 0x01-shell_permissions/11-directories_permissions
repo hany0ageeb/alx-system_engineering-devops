@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod --recursive a+X ./
+chmod --recursive u+X,g+X,o+X ./
