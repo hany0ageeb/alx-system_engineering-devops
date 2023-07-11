@@ -1,0 +1,2 @@
+#!/bin/bash
+nl | grep -E '^\s*[0-9]*[13579]{1}\s{1,}' | rev | cut -f1 | rev
