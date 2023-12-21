@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+INFILE="/etc/passwd"
+while IFS=':' read -ra arr;
+do
+	echo "${arr[0]}:${arr[2]}:${arr[5]}"
+done < "$INFILE"
