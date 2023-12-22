@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# Bash (init) script 101-manage_my_process that manages manage_my_process
+#	1. When passing the argument start
+#		1.1 Starts manage_my_process
+#		1.2 Creates a file containing its PID in /var/run/my_process.pid
+#		1.3 Displays manage_my_process started
+#	2. When passing the argument stop
+#		2.1 Stops manage_my_process
+#		2.2 Deletes the file /var/run/my_process.pid
+#		2.3 Displays manage_my_process stopped
+#	3. When passing the argument restart
+#		3.1 Stops manage_my_process
+#		3.2 Deletes the file /var/run/my_process.pid
+#		3.3 Starts manage_my_process
+#		3.4 Creates a file containing its PID in /var/run/my_process.pid
+#		3.5 Displays manage_my_process restarted
+#	4. Displays Usage: manage_my_process {start|stop|restart} if any other argument or no argument is passed
+function start_func(){
+	./manage_my_process & 
+	echo $! > /var/run/my_process.pid
+}
+function stop_func(){
+	if [ -s /var/run/my_process.pid ];
+	then
+		p_id=$(cat /var/run/my_process.pid)
+		kill -9 "$p_id"
+		rm -f /var/run/my_process.pid
+	fi
+}
+function restart_func(){
+	stop_func
+	start_func
+}
+if [ "${1}" == "start" ];
+then
+	start_func
+	echo "manage_my_process started"
+elif [ "${1}" == "stop" ];
+then
+	stop_func
+	echo "manage_my_process stopped"
+elif [ "${1}" == "restart" ];
+then
+	restart_func
+	echo "manage_my_process restarted"
+else
+	echo "Usage: manage_my_process {start|stop|restart}"
+fi
