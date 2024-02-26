@@ -4,10 +4,12 @@
 # 1. The page must return an HTTP 404 error code
 # 2. The page must contain the string Ceci n'est pas une page
 # 3. Using what you did with 3-redirection, write 4-not_found_page_404 so that it configures a brand new
-apt-get update
-apt-get -y install nginx
+#apt-get update
+#apt-get -y install nginx
 echo 'Hello World!' | sudo tee /var/www/html/index.html
-echo 'Ceci n''est pas une page' | sudo tee /usr/share/nginx/custom_404.html
-redirect_me="server_name _;\n\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;\n\n\terror_page 404 \/custom_404.html;\n\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n}"
+echo "Ceci n''est pas une page\n" | sudo tee var/www/html/custom_404.html
+redirect_me="server_name _;\n\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;"
+err_me="listen 80 default_server;\n\t\n\n\terror_page 404 \/custom_404.html;\n\n\tlocation = \/custom_404.html {\n\t\troot \/var\/www\/html\/;\n\t\tinternal;\n\t}"
 sudo sed -i "s/server_name _;/$redirect_me/" /etc/nginx/sites-enabled/default
+sudo sed -i "s/listen 80 default_server;/$err_me/" /etc/nginx/sites-enabled/default
 service nginx restart

@@ -7,5 +7,6 @@
 apt-get update
 apt-get -y install nginx
 echo 'Hello World!' | sudo tee /var/www/html/index.html
-sudo sed -i "s/server_name _;/server_name -;\n\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;/" /etc/nginx/sites-enabled/default
+redirect_str="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;"
+sudo sed -i "s/server_name _;/$redirect_str/" /etc/nginx/sites-enabled/default
 service nginx restart
