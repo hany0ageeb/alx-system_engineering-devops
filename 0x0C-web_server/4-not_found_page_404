@@ -6,10 +6,12 @@
 # 3. Using what you did with 3-redirection, write 4-not_found_page_404 so that it configures a brand new
 apt-get update
 apt-get -y install nginx
-echo 'Hello World!' | sudo tee /var/www/html/index.html
-echo "Ceci n''est pas une page\n" | sudo tee var/www/html/custom_404.html
-redirect_me="server_name _;\n\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;"
-err_me="listen 80 default_server;\n\t\n\n\terror_page 404 \/custom_404.html;\n\n\tlocation = \/custom_404.html {\n\t\troot \/var\/www\/html\/;\n\t\tinternal;\n\t}"
-sudo sed -i "s/server_name _;/$redirect_me/" /etc/nginx/sites-enabled/default
-sudo sed -i "s/listen 80 default_server;/$err_me/" /etc/nginx/sites-enabled/default
+echo 'Hello World!' | sudo tee /var/www/html/index.html > /dev/null
+echo "Ceci n''est pas une page" | sudo tee var/www/html/404.html > /dev/null
+sed -i "47i rewrite ^/redirect_me https://www.youtube.com permanent;" /etc/nginx/sites-enabled/default
+sed -i "48i error_page 404 /404.html;" /etc/nginx/sites-enabled/default
+sed -i "49i location = /404.html {" /etc/nginx/sites-enabled/default
+sed -i "50i root /var/www/html;" /etc/nginx/sites-enabled/default
+sed -i "51i internal;" /etc/nginx/sites-enabled/default
+sed -i "52i }" /etc/nginx/sites-enabled/default
 service nginx restart
