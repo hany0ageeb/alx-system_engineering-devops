@@ -1,40 +1,57 @@
-include stdlib
+# apt-get update
 exec {'apt-get update':
   command => 'apt-get update',
   path    => ['/usr/bin', '/usr/sbin']
 }
+# install nginx
 package {'nginx':
   ensure => 'present',
 }
+# add Hello World!
 file {'/var/www/html/index.html':
   ensure  => 'file',
   path    => '/var/www/html/index.html',
-  content => 'Hello World!'
+  content => 'Hello World!\n'
 }
 file {'/usr/share/nginx/html/404.html':
   ensure  => 'file',
   path    => '/usr/share/nginx/html/404.html',
-  content => "Ceci n'est pas une page
-",
+  content => "Ceci n'est pas une page\n",
 }
-file_line {'redirec_me':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-enabled/default',
-  line   => '	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
-  after  => 'server_name _;',
-}
-file_line {'404':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-enabled/default',
-  line   => '
-	error_page 404 /404.html;
-	location = /404.html {
-		root /usr/share/nginx/html;
-		internal;
-	}',
-  after  => 'listen 80 default_server;',
+file {'/etc/nginx/sites-enabled/default':
+  ensure  => 'file',
+  path    => '/etc/nginx/sites-enabled/default',
+  content => 
+'server {
+        listen 80 default_server;
+
+        error_page 404 /404.html;
+
+        location = /404.html {
+                root /usr/share/nginx/html;
+                internal;
+        }
+
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}',
 }
 exec {'restart nginx':
   command => 'service nginx restart',
   path    => ['/usr/bin', '/usr/sbin']
+}
+service {'nginx':
+  ensure => 'running',
+  name   => 'nginx',
 }
