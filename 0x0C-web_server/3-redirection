@@ -6,7 +6,7 @@
 # 3. Using what you did with 1-install_nginx_web_server, write 3-redirection so that it configures a brand new Ubuntu machine to the requirements asked in this task
 apt-get update
 apt-get -y install nginx
-echo 'Hello World!' | sudo tee /var/www/html/index.html
+echo 'Hello World!' | tee /var/www/html/index.html
 redirect_str="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.google.com permanent;"
-sudo sed -i "s/server_name _;/$redirect_str/" /etc/nginx/sites-enabled/default
+sed -i "s/server_name _;/$redirect_str/" /etc/nginx/sites-enabled/default
 service nginx restart
