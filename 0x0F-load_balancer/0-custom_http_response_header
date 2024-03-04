@@ -4,7 +4,7 @@ apt-get update -y
 apt-get install nginx -y
 echo 'Hello World!' > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
-printf "server {\n\tlisten 80 default_server;\n" > /etc/nginx/sites-enabled/default
+printf "server {\n\tadd_header X-Served-By $(hostname);\n\tlisten 80 default_server;\n" > /etc/nginx/sites-enabled/default
 printf "\terror_page 404 /404.html;\n\tlocation = /404.html {\n" >> /etc/nginx/sites-enabled/default
 printf "\t\troot /usr/share/nginx/html;\n\t\tinternal;\n\t}\n" >> /etc/nginx/sites-enabled/default
 printf "\tlisten [::]:80 default_server;\n\troot /var/www/html;\n" >> /etc/nginx/sites-enabled/default
