@@ -35,25 +35,22 @@ defaults
         errorfile 502 /etc/haproxy/errors/502.http
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
-        # ADDITIONS
         option forwardfor
         option http-server-close
 
-#--munyasi.tech-params-begin--
 frontend hany-samir.tech-frontend
         bind *:80
         bind *:443 ssl crt /etc/haproxy/certs/hany-samir.tech.pem
         acl letsencrypt-acl path_beg /.well-known/acme-challenge/
         http-request set-header X-Forwarded-Proto http
-        # ADDITIONS
         use_backend letsencrypt-backend if letsencrypt-acl
         default_backend hany-samir.tech-backend
 
 backend hany-samir.tech-backend
         balance roundrobin
         redirect scheme https if !{ ssl_fc }
-        server 20639-web-01 100.26.241.78:80 check
-        server 20639-web-02 100.26.215.50:80 check
+       server 441639-web-01 100.26.241.78:80 check
+        server 441639-web-02 100.26.215.50:80 check
 
 backend letsencrypt-backend
         server letsencrypt 127.0.0.1:54321
