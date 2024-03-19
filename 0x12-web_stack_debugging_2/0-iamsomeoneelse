@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-runuser -u "$1" -- whoami
+# script that accepts one argument
+sudo -u "$1" whoami
