@@ -19,7 +19,7 @@ def main():
     r = requests.get(
             'https://jsonplaceholder.typicode.com/users/{}'.format(
                 EMP_ID))
-    user_name = r.json().get('name')
+    user_name = r.json().get('username')
     r = requests.get(
         'https://jsonplaceholder.typicode.com/todos',
         params={'userId': EMP_ID})
