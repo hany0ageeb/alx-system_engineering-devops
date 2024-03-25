@@ -24,8 +24,11 @@ def main():
         'https://jsonplaceholder.typicode.com/todos',
         params={'userId': EMP_ID})
     tasks = r.json()
-    with open(f"{EMP_ID}.csv", 'w') as file:
-        writer = csv.writer(file)
+    with open(f"{EMP_ID}.csv", 'w') as f:
+        writer = csv.writer(
+                f,
+                quotechar='"',
+                quoting=csv.QUOTE_ALL)
         for task in tasks:
             writer.writerow([
                 task.get('userId'),
