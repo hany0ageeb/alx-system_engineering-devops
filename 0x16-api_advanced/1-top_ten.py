@@ -21,7 +21,8 @@ def top_ten(subreddit):
     response = requests.get(
         URL,
         headers=headers,
-        params=params)
+        params=params,
+        allow_redirects=False)
     if response.status_code == 200:
         try:
             posts = response.json()['data']['children']
