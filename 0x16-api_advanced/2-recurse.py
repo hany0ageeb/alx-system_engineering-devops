@@ -8,20 +8,18 @@ the function should return None.
 import requests
 
 
-def recurse(subreddit, hot_list=[], after='', count=0):
+def recurse(subreddit, hot_list=[], after=''):
     """
     queries the Reddit API and returns a list containing
     the titles of all hot articles for a given subreddit
     """
-    URL = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
+    URL = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     headers = {
-        'User-Agent':
-        'Custom'
+        'User-Agent': 'Custom'
     }
     params = {
         'after': after,
-        'count': count,
-        'limit': 100
+        'limit': 100,
     }
     response = requests.get(
         URL,
@@ -31,10 +29,9 @@ def recurse(subreddit, hot_list=[], after='', count=0):
     if response.status_code == 404:
         return None
     results = response.json().get('data')
-    after = results.get('after', None)
-    count += results.get('dist', 0)
+    after = results.get('after')
     for itm in results.get('children'):
         hot_list.append(itm.get('data').get('title'))
     if after is not None:
-        return recurse(subreddit, hot_list, after, count)
+        recurse(subreddit, hot_list, after)
     return hot_list
