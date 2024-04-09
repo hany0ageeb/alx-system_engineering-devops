@@ -15,11 +15,13 @@ def top_ten(subreddit):
     Return:
         None
     """
-    URL = 'https://www.reddit.com/r/{}/hot.json?show="all"&limit={}'.format(
-        subreddit,
-        10)
+    URL = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
     headers = {'User-Agent': 'Python/1.0(0x16 API)'}
-    response = requests.get(URL, headers=headers)
+    params = {'limit': 10, 'show': 'all'}
+    response = requests.get(
+        URL,
+        headers=headers,
+        params=params)
     if response.status_code == 200:
         try:
             posts = response.json()['data']['children']
