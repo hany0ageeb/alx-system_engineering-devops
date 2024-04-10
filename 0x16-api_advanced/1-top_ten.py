@@ -15,13 +15,21 @@ def top_ten(subreddit):
     Return:
         None
     """
-    URL = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    headers = {'User-Agent': 'Custom'}
-    params = {'limit': 10, 'show': 'all'}
+    URL = 'https://www.reddit.com/r/{}/hot.json?limit=10&row_json=1'.format(
+        subreddit)
+    headers = {
+        'Accept': 'application/json',
+        'User-Agent': ' '.join([
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'AppleWebKit/537.36 (KHTML, like Gecko)',
+            'Chrome/97.0.4692.71',
+            'Safari/537.36',
+            'Edg/97.0.1072.62'
+        ])
+    }
     response = requests.get(
         URL,
         headers=headers,
-        params=params,
         allow_redirects=False)
     if (response.status_code == 200):
         titles = [
@@ -30,4 +38,4 @@ def top_ten(subreddit):
         for title in titles:
             print(title)
     else:
-        print(None)
+        print('None')
