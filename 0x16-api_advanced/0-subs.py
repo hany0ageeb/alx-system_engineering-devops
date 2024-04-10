@@ -18,12 +18,23 @@ def number_of_subscribers(subreddit):
         int: the number of subscribers or 0
     """
     URL = 'https://www.reddit.com/r/{}/about.json'.format(subreddit)
+    headers = {
+        'User-Agent': 'Safari/573.36',
+        'Accept': 'application/json',
+    }
     response = requests.get(
         URL,
-        headers={'User-Agent': 'Custom-Agent'},
+        headers=headers,
         allow_redirects=False)
     if response.status_code == 200:
-        data = response.json().get('data', {'subscribers': 0})
-        return data.get('subscribers', 0)
-    else:
-        return 0
+        try:
+            data = response.json().get('data', {'subscribers': 0})
+            return data.get('subscribers', 0)
+        except requests.exceptions.JSONDecodeError:
+            return 0
+    return 0
+
+
+if __name__ == '__main__':
+    print(number_of_subscribers('programming'))
+    print(number_of_subscribers('this_is_a_fake_subreddit'))
