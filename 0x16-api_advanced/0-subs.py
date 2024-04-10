@@ -33,8 +33,3 @@ def number_of_subscribers(subreddit):
         except requests.exceptions.JSONDecodeError:
             return 0
     return 0
-
-
-if __name__ == '__main__':
-    print(number_of_subscribers('programming'))
-    print(number_of_subscribers('this_is_a_fake_subreddit'))
