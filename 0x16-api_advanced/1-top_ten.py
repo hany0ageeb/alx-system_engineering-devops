@@ -15,7 +15,7 @@ def top_ten(subreddit):
     Return:
         None
     """
-    URL = 'https://www.reddit.com/r/{}/hot.json?limit=10&row_json=1'.format(
+    URL = 'https://www.reddit.com/r/{}/.json?sort=top&limit=10'.format(
         subreddit)
     headers = {
         'Accept': 'application/json',
