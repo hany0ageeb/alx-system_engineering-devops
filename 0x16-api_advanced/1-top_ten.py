@@ -16,19 +16,22 @@ def top_ten(subreddit):
         None
     """
     URL = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-    headers = {'User-Agent': 'Python/1.0(0x16 API)'}
+    headers = {'User-Agent': 'Custom'}
     params = {'limit': 10, 'show': 'all'}
     response = requests.get(
         URL,
         headers=headers,
         params=params,
         allow_redirects=False)
-    if response.status_code == 200:
-        try:
-            posts = response.json()['data']['children']
-            for post in posts:
-                print(post['data']['title'])
-        except KeyError:
-            print('None')
+    if (response.status_code == 200):
+        titles = [
+            child.get('data').get('title')
+            for child in response.json().get('data').get('children')]
+        for title in titles:
+            print(title)
     else:
         print('None')
+
+
+if __name__ == '__main__':
+    top_ten('Gaza')
