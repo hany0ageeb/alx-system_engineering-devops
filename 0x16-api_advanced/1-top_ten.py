@@ -30,8 +30,4 @@ def top_ten(subreddit):
         for title in titles:
             print(title)
     else:
-        print('None')
-
-
-if __name__ == '__main__':
-    top_ten('Gaza')
+        print(None)
