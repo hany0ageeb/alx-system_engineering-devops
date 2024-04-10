@@ -13,13 +13,7 @@ def recurse(subreddit, hot_list=[], after=None):
     """Retrieves a list of hot posts from a given subreddit."""
     headers = {
         'Accept': 'application/json',
-        'User-Agent': ' '.join([
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-            'AppleWebKit/537.36 (KHTML, like Gecko)',
-            'Chrome/97.0.4692.71',
-            'Safari/537.36',
-            'Edg/97.0.1072.62'
-        ])
+        'User-Agent': 'Edg/97.0.1072.62'
     }
     if after is None:
         URL = 'https://www.reddit.com/r/{}/hot.json?limit=100'.format(
