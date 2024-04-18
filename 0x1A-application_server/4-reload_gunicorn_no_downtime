@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # reload Gunicorn in a graceful way
-sudo kill -HUP "$(ps -C gunicorn fch -o pid | head -n  1 | awk '{print $1}')"
+MAINPID="$(ps -C gunicorn fch -o pid | head -n  1 | awk '{print $1}')"
+sudo kill -HUP "$MAINPID"
