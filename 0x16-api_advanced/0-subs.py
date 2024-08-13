@@ -30,4 +30,3 @@ def number_of_subscribers(subreddit):
         data = response.json().get('data', {'subscribers': 0})
         return data.get('subscribers', 0)
     return 0
-
